@@ -41,9 +41,7 @@
       "email"
     ],
     "userPoolGroupList": [
-      "HR",
-      "Executive",
-      "engineer"
+      "amplifyproject1"
     ],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

@@ -1,14 +1,6 @@
 [
   {
-    "groupName": "HR",
+    "groupName": "amplifyproject1",
     "precedence": 1
-  },
-  {
-    "groupName": "Executive",
-    "precedence": 2
-  },
-  {
-    "groupName": "engineer",
-    "precedence": 3
   }
 ]

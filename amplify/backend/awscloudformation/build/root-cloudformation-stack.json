@@ -220,7 +220,7 @@
             "Ref": "UnauthRoleName"
           },
           "S3DeploymentBucket": "amplify-amplifyproject1-dev-5d7e4-deployment",
-          "S3DeploymentRootKey": "amplify-appsync-files/6363248bfe824b10badc3722d08299be2b9a33b5",
+          "S3DeploymentRootKey": "amplify-appsync-files/d07531e75fd81a4175a2244a1efd857e7fee2114",
           "env": "dev"
         }
       }
@@ -240,30 +240,6 @@
             "Fn::GetAtt": [
               "functionuserslambda",
               "Outputs.Arn"
-            ]
-          },
-          "authamplifyproject1df408292UserPoolId": {
-            "Fn::GetAtt": [
-              "authamplifyproject1df408292",
-              "Outputs.UserPoolId"
-            ]
-          },
-          "authuserPoolGroupsHRGroupRole": {
-            "Fn::GetAtt": [
-              "authuserPoolGroups",
-              "Outputs.HRGroupRole"
-            ]
-          },
-          "authuserPoolGroupsExecutiveGroupRole": {
-            "Fn::GetAtt": [
-              "authuserPoolGroups",
-              "Outputs.ExecutiveGroupRole"
-            ]
-          },
-          "authuserPoolGroupsengineerGroupRole": {
-            "Fn::GetAtt": [
-              "authuserPoolGroups",
-              "Outputs.engineerGroupRole"
             ]
           },
           "env": "dev"
@@ -302,7 +278,7 @@
           "authSelections": "identityPoolAndUserPool",
           "useDefault": "default",
           "usernameAttributes": "email",
-          "userPoolGroupList": "HR,Executive,engineer",
+          "userPoolGroupList": "amplifyproject1",
           "serviceName": "Cognito",
           "usernameCaseSensitive": false,
           "useEnabledMfas": true,

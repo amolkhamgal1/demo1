@@ -1,6 +1,0 @@
-## [Start] Sandbox Mode Enabled, IAM Access Disabled. **
-#if( $util.authType() == "API Key Authorization" )
-  #return($util.toJson({}))
-#end
-$util.unauthorized()
-## [End] Sandbox Mode Enabled, IAM Access Disabled. **

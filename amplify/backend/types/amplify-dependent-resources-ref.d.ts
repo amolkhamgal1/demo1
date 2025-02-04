@@ -22,9 +22,7 @@ export type AmplifyDependentResourcesAttributes = {
       "UserPoolName": "string"
     },
     "userPoolGroups": {
-      "ExecutiveGroupRole": "string",
-      "HRGroupRole": "string",
-      "engineerGroupRole": "string"
+      "amplifyproject1GroupRole": "string"
     }
   },
   "function": {

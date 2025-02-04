@@ -1,4 +1,4 @@
-type Project @aws_iam @aws_cognito_user_pools {
+type Project {
   id: ID!
   name: String!
   description: String
@@ -15,13 +15,12 @@ type Squad {
   updatedAt: AWSDateTime!
 }
 
-type Post @aws_cognito_user_pools @aws_api_key {
+type Post {
   id: ID!
   title: String!
   comments(content: ModelStringKeyConditionInput, filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
-  email: String
 }
 
 type Comment {
@@ -182,7 +181,7 @@ enum ModelSortDirection {
   DESC
 }
 
-type ModelProjectConnection @aws_iam @aws_cognito_user_pools {
+type ModelProjectConnection {
   items: [Project]!
   nextToken: String
 }
@@ -200,15 +199,15 @@ input ModelProjectFilterInput {
 }
 
 type Query {
+  getProject(id: ID!): Project
+  listProjects(filter: ModelProjectFilterInput, limit: Int, nextToken: String): ModelProjectConnection
   getSquad(id: ID!): Squad
   listSquads(filter: ModelSquadFilterInput, limit: Int, nextToken: String): ModelSquadConnection
+  getPost(id: ID!): Post
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection
   getComment(id: ID!): Comment
   listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
   commentsByPostIDAndContent(postID: ID!, content: ModelStringKeyConditionInput, sortDirection: ModelSortDirection, filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection
-  getProject(id: ID!): Project @aws_iam @aws_cognito_user_pools
-  listProjects(filter: ModelProjectFilterInput, limit: Int, nextToken: String): ModelProjectConnection @aws_iam @aws_cognito_user_pools
-  getPost(id: ID!): Post @aws_api_key @aws_cognito_user_pools
-  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_api_key @aws_cognito_user_pools
 }
 
 input ModelProjectConditionInput {
@@ -241,18 +240,18 @@ input DeleteProjectInput {
 }
 
 type Mutation {
+  createProject(input: CreateProjectInput!, condition: ModelProjectConditionInput): Project
+  updateProject(input: UpdateProjectInput!, condition: ModelProjectConditionInput): Project
+  deleteProject(input: DeleteProjectInput!, condition: ModelProjectConditionInput): Project
   createSquad(input: CreateSquadInput!, condition: ModelSquadConditionInput): Squad
   updateSquad(input: UpdateSquadInput!, condition: ModelSquadConditionInput): Squad
   deleteSquad(input: DeleteSquadInput!, condition: ModelSquadConditionInput): Squad
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post
   createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment
   updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment
   deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment
-  createProject(input: CreateProjectInput!, condition: ModelProjectConditionInput): Project @aws_iam @aws_cognito_user_pools
-  updateProject(input: UpdateProjectInput!, condition: ModelProjectConditionInput): Project @aws_iam @aws_cognito_user_pools
-  deleteProject(input: DeleteProjectInput!, condition: ModelProjectConditionInput): Project @aws_iam @aws_cognito_user_pools
-  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
-  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
-  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_cognito_user_pools
 }
 
 input ModelSubscriptionProjectFilterInput {
@@ -267,18 +266,18 @@ input ModelSubscriptionProjectFilterInput {
 }
 
 type Subscription {
+  onCreateProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["createProject"])
+  onUpdateProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["updateProject"])
+  onDeleteProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["deleteProject"])
   onCreateSquad(filter: ModelSubscriptionSquadFilterInput): Squad @aws_subscribe(mutations: ["createSquad"])
   onUpdateSquad(filter: ModelSubscriptionSquadFilterInput): Squad @aws_subscribe(mutations: ["updateSquad"])
   onDeleteSquad(filter: ModelSubscriptionSquadFilterInput): Squad @aws_subscribe(mutations: ["deleteSquad"])
+  onCreatePost(filter: ModelSubscriptionPostFilterInput): Post @aws_subscribe(mutations: ["createPost"])
+  onUpdatePost(filter: ModelSubscriptionPostFilterInput): Post @aws_subscribe(mutations: ["updatePost"])
+  onDeletePost(filter: ModelSubscriptionPostFilterInput): Post @aws_subscribe(mutations: ["deletePost"])
   onCreateComment(filter: ModelSubscriptionCommentFilterInput): Comment @aws_subscribe(mutations: ["createComment"])
   onUpdateComment(filter: ModelSubscriptionCommentFilterInput): Comment @aws_subscribe(mutations: ["updateComment"])
   onDeleteComment(filter: ModelSubscriptionCommentFilterInput): Comment @aws_subscribe(mutations: ["deleteComment"])
-  onCreateProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["createProject"]) @aws_iam @aws_cognito_user_pools
-  onUpdateProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["updateProject"]) @aws_iam @aws_cognito_user_pools
-  onDeleteProject(filter: ModelSubscriptionProjectFilterInput): Project @aws_subscribe(mutations: ["deleteProject"]) @aws_iam @aws_cognito_user_pools
-  onCreatePost(filter: ModelSubscriptionPostFilterInput, email: String): Post @aws_subscribe(mutations: ["createPost"]) @aws_api_key @aws_cognito_user_pools
-  onUpdatePost(filter: ModelSubscriptionPostFilterInput, email: String): Post @aws_subscribe(mutations: ["updatePost"]) @aws_api_key @aws_cognito_user_pools
-  onDeletePost(filter: ModelSubscriptionPostFilterInput, email: String): Post @aws_subscribe(mutations: ["deletePost"]) @aws_api_key @aws_cognito_user_pools
 }
 
 type ModelSquadConnection {
@@ -328,7 +327,7 @@ input ModelSubscriptionSquadFilterInput {
   or: [ModelSubscriptionSquadFilterInput]
 }
 
-type ModelPostConnection @aws_api_key @aws_cognito_user_pools {
+type ModelPostConnection {
   items: [Post]!
   nextToken: String
 }
@@ -341,7 +340,6 @@ input ModelPostFilterInput {
   and: [ModelPostFilterInput]
   or: [ModelPostFilterInput]
   not: ModelPostFilterInput
-  email: ModelStringInput
 }
 
 input ModelPostConditionInput {
@@ -351,7 +349,6 @@ input ModelPostConditionInput {
   not: ModelPostConditionInput
   createdAt: ModelStringInput
   updatedAt: ModelStringInput
-  email: ModelStringInput
 }
 
 input CreatePostInput {
@@ -375,10 +372,9 @@ input ModelSubscriptionPostFilterInput {
   updatedAt: ModelSubscriptionStringInput
   and: [ModelSubscriptionPostFilterInput]
   or: [ModelSubscriptionPostFilterInput]
-  email: ModelStringInput
 }
 
-type ModelCommentConnection @aws_cognito_user_pools @aws_api_key {
+type ModelCommentConnection {
   items: [Comment]!
   nextToken: String
 }
