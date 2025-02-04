@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "paths": {
+    "/users": {
+      "name": "/users",
+      "lambdaFunction": "userslambda",
+      "permissions": {
+        "groups": {
+          "HR": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "Executive": [
+            "create",
+            "read"
+          ],
+          "engineer": [
+            "read"
+          ]
+        },
+        "setting": "private"
+      }
+    }
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"Amplify\",\"createdWith\":\"12.14.1\",\"stackType\":\"auth-Cognito-UserPool-Groups\",\"metadata\":{\"whyContinueWithGen1\":\"I am a current Gen 1 user\"}}",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "env": {
+      "Type": "String"
+    },
+    "AuthRoleArn": {
+      "Type": "String"
+    },
+    "UnauthRoleArn": {
+      "Type": "String"
+    },
+    "authamplifyproject1df408292UserPoolId": {
+      "Type": "String",
+      "Default": "authamplifyproject1df408292UserPoolId"
+    },
+    "authamplifyproject1df408292IdentityPoolId": {
+      "Type": "String",
+      "Default": "authamplifyproject1df408292IdentityPoolId"
+    },
+    "authamplifyproject1df408292AppClientID": {
+      "Type": "String",
+      "Default": "authamplifyproject1df408292AppClientID"
+    },
+    "authamplifyproject1df408292AppClientIDWeb": {
+      "Type": "String",
+      "Default": "authamplifyproject1df408292AppClientIDWeb"
+    }
+  },
+  "Conditions": {
+    "ShouldNotCreateEnvResources": {
+      "Fn::Equals": [
+        {
+          "Ref": "env"
+        },
+        "NONE"
+      ]
+    }
+  },
+  "Resources": {
+    "HRGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "Description": "override success",
+        "GroupName": "HR",
+        "Precedence": 1,
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "HRGroupRole",
+            "Arn"
+          ]
+        },
+        "UserPoolId": {
+          "Ref": "authamplifyproject1df408292UserPoolId"
+        }
+      }
+    },
+    "HRGroupRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": "cognito-identity.amazonaws.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "cognito-identity.amazonaws.com:aud": {
+                    "Ref": "authamplifyproject1df408292IdentityPoolId"
+                  }
+                },
+                "ForAnyValue:StringLike": {
+                  "cognito-identity.amazonaws.com:amr": "authenticated"
+                }
+              }
+            }
+          ]
+        },
+        "RoleName": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "authamplifyproject1df408292UserPoolId"
+              },
+              "-HRGroupRole"
+            ]
+          ]
+        }
+      }
+    },
+    "ExecutiveGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "Description": "override success",
+        "GroupName": "Executive",
+        "Precedence": 2,
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ExecutiveGroupRole",
+            "Arn"
+          ]
+        },
+        "UserPoolId": {
+          "Ref": "authamplifyproject1df408292UserPoolId"
+        }
+      }
+    },
+    "ExecutiveGroupRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": "cognito-identity.amazonaws.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "cognito-identity.amazonaws.com:aud": {
+                    "Ref": "authamplifyproject1df408292IdentityPoolId"
+                  }
+                },
+                "ForAnyValue:StringLike": {
+                  "cognito-identity.amazonaws.com:amr": "authenticated"
+                }
+              }
+            }
+          ]
+        },
+        "RoleName": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "authamplifyproject1df408292UserPoolId"
+              },
+              "-ExecutiveGroupRole"
+            ]
+          ]
+        }
+      }
+    },
+    "engineerGroup": {
+      "Type": "AWS::Cognito::UserPoolGroup",
+      "Properties": {
+        "Description": "override success",
+        "GroupName": "engineer",
+        "Precedence": 3,
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "engineerGroupRole",
+            "Arn"
+          ]
+        },
+        "UserPoolId": {
+          "Ref": "authamplifyproject1df408292UserPoolId"
+        }
+      }
+    },
+    "engineerGroupRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Allow",
+              "Principal": {
+                "Federated": "cognito-identity.amazonaws.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity",
+              "Condition": {
+                "StringEquals": {
+                  "cognito-identity.amazonaws.com:aud": {
+                    "Ref": "authamplifyproject1df408292IdentityPoolId"
+                  }
+                },
+                "ForAnyValue:StringLike": {
+                  "cognito-identity.amazonaws.com:amr": "authenticated"
+                }
+              }
+            }
+          ]
+        },
+        "RoleName": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "authamplifyproject1df408292UserPoolId"
+              },
+              "-engineerGroupRole"
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "HRGroupRole": {
+      "Value": {
+        "Fn::GetAtt": [
+          "HRGroupRole",
+          "Arn"
+        ]
+      }
+    },
+    "ExecutiveGroupRole": {
+      "Value": {
+        "Fn::GetAtt": [
+          "ExecutiveGroupRole",
+          "Arn"
+        ]
+      }
+    },
+    "engineerGroupRole": {
+      "Value": {
+        "Fn::GetAtt": [
+          "engineerGroupRole",
+          "Arn"
+        ]
+      }
+    }
+  }
+}
