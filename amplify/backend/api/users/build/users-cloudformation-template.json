@@ -368,7 +368,7 @@
         "Name": "users"
       }
     },
-    "usersDefault4XXResponseb752a43f": {
+    "usersDefault4XXResponse67fd400b": {
       "Type": "AWS::ApiGateway::GatewayResponse",
       "Properties": {
         "ResponseParameters": {
@@ -383,7 +383,7 @@
         }
       }
     },
-    "usersDefault5XXResponseb752a43f": {
+    "usersDefault5XXResponse67fd400b": {
       "Type": "AWS::ApiGateway::GatewayResponse",
       "Properties": {
         "ResponseParameters": {
@@ -398,7 +398,7 @@
         }
       }
     },
-    "DeploymentAPIGWusers5c74d5e7": {
+    "DeploymentAPIGWusers447da1f3": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "Description": "The Development stage deployment of your API.",
@@ -416,8 +416,8 @@
         }
       },
       "DependsOn": [
-        "usersDefault4XXResponseb752a43f",
-        "usersDefault5XXResponseb752a43f"
+        "usersDefault4XXResponse67fd400b",
+        "usersDefault5XXResponse67fd400b"
       ]
     }
   }
