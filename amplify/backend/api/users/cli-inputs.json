@@ -5,22 +5,7 @@
       "name": "/users",
       "lambdaFunction": "userslambda",
       "permissions": {
-        "groups": {
-          "HR": [
-            "create",
-            "read",
-            "update",
-            "delete"
-          ],
-          "Executive": [
-            "create",
-            "read"
-          ],
-          "engineer": [
-            "read"
-          ]
-        },
-        "setting": "private"
+        "setting": "open"
       }
     }
   }
